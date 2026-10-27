@@ -1,22 +1,12 @@
 {
   "meta": {
     "title": "Tab 模式与模型切换器",
-    "description": "像 Claude Code 一样通过 Tab 键或 Tab 按钮快速切换 Plan 和 Build 模式，并预设各模式的模型（如 Plan 用 Pro，Build 用 Flash）。"
-  },
-  "settings": {
-    "title": "模式预设模型设置",
-    "close": "关闭",
-    "planLabel": "📋 Plan 模式模型",
-    "buildLabel": "🛠️ Build 模式模型",
-    "followDefault": "跟随当前模型 (当前: {display})",
-    "done": "完成",
-    "buttonTitle": "设置各模式预设模型 (默认跟随当前模型)",
-    "buttonAria": "设置模式预设模型"
+    "description": "像 Claude Code 一样通过 Tab 键或工具栏按钮快速切换 Plan 和 Build 模式，并自动按模式分别记忆右侧模型选择器的设置。"
   },
   "button": {
     "planAria": "计划模式已开启，按下切换为构建模式",
     "buildAria": "构建模式已开启，按下切换为计划模式",
-    "planTitle": "Plan 模式开启 · 点击或按 Tab 切换到 Build 模式",
-    "buildTitle": "Build 模式开启 · 点击或按 Tab 切换到 Plan 模式"
+    "planTitle": "Plan 模式开启 · 点击或按 Tab 切换到 Build 模式（直接使用右侧模型选择器即可记忆当前模式模型）",
+    "buildTitle": "Build 模式开启 · 点击或按 Tab 切换到 Plan 模式（直接使用右侧模型选择器即可记忆当前模式模型）"
   }
 }

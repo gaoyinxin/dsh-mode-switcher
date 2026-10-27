@@ -2,7 +2,7 @@
 
 English | [中文](README.zh.md)
 
-Switch seamlessly between **Plan** and **Build** modes in DeepSeek Harness via `Tab` key or toolbar button like Claude Code, with customizable per-mode model presets (e.g. Pro for Plan, Flash for Build).
+Switch seamlessly between **Plan** and **Build** modes in DeepSeek Harness via `Tab` key or toolbar button like Claude Code, while automatically remembering each mode's model directly from the native model selector on the right.
 
 ## Features
 
@@ -12,12 +12,13 @@ Switch seamlessly between **Plan** and **Build** modes in DeepSeek Harness via `
 - **Unified Toolbar Button**:
   - Overrides the `conversation.input.plan` slot via priority shadowing (`priority: -10`), replacing the native one-way "Plan" close chip and preventing duplicate buttons.
   - Persistently displays `[ 🛠️ Build ⇥ Tab ]` / `[ 📋 Plan ⇥ Tab ]` status; click to toggle.
-- **Seamless Model Presets**:
-  - Defaults to using the session's currently selected model and provider without changing models on mode switch.
-  - Click the `⚙️` settings icon next to the toggle button to configure custom models for Plan and Build modes (e.g. fix Plan to Pro/Reasoner and Build to Flash/Chat); leaves as "Follow current model" if unconfigured.
-  - Persisted in local browser storage (v2 format).
+- **Seamless Per-Mode Model Memory (Uses Native Model Selector)**:
+  - No extra settings button or modal needed — directly use the **native model selector on the right** of the composer.
+  - Whatever model (and reasoning effort) you select while in **Plan** mode is automatically remembered as your **Plan mode model**.
+  - Whatever model (and reasoning effort) you select while in **Build** mode is automatically remembered as your **Build mode model**.
+  - Switching between `Plan` and `Build` modes (via `Tab`, button click, `/plan`, or plan approval) automatically restores the model for that mode.
 - **Native Bilingual Support**:
-  - Fully supports English and Simplified Chinese UI and settings, automatically adapting to the browser's display language.
+  - Fully supports English and Simplified Chinese tooltips and accessibility labels, automatically adapting to the browser's display language.
 
 ## Installation
 
