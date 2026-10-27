@@ -1,31 +1,36 @@
 # @gaoyinxin/dsh-mode-switcher
 
-像 Claude Code 一样通过 `Tab` 键或工具栏按钮快速切换 **Plan** 和 **Build** 模式，并支持为不同模式预设不同的模型（例如 Plan 用 Pro，Build 用 Flash）。
+English | [中文](README.zh.md)
 
-## 功能特性
+Switch seamlessly between **Plan** and **Build** modes in DeepSeek Harness via `Tab` key or toolbar button like Claude Code, with customizable per-mode model presets (e.g. Pro for Plan, Flash for Build).
 
-- **键盘快捷键切换**：
-  - 在输入框中随时按 `Tab` 键（无论是否已输入文字），立即在 `Build` 和 `Plan` 模式间平滑切换，完全不丢失已输入的草稿文本和光标位置。
-  - 当 `@` 引用或 `/` 命令自动补全菜单弹出时，自动让位给补全选择。
-- **工具栏统一控制按钮**：
-  - 通过优先级遮蔽（`priority: -10`）接管 `conversation.input.plan` 槽位，替代原生单向的「计划」关闭按钮，避免按钮重复。
-  - 常驻展示 `[ 🛠️ Build ⇥ Tab ]` / `[ 📋 Plan ⇥ Tab ]` 状态，点击即可切换。
-- **模式与模型无缝联动**：
-  - 默认使用当前会话的模型与 Provider，切换模式时不改变用户当前选定的模型。
-  - 点击按钮右侧的 `⚙️` 图标，可自由为 Plan 和 Build 模式指定特定的预设模型（例如 Plan 固定用 Pro/Reasoner，Build 固定用 Flash）；若未指定则自动跟随当前模型。
-  - 配置持久化于本地浏览器（v2 存储），随时可在弹窗中还原为跟随当前模型。
+## Features
 
-## 安装方式
+- **Keyboard Shortcut Toggle**:
+  - Press `Tab` at any time while typing in the composer (whether empty or with drafted text) to smoothly toggle between `Build` and `Plan` modes without losing draft text or cursor position.
+  - Automatically yields to `@` mention and `/` slash command popup menus.
+- **Unified Toolbar Button**:
+  - Overrides the `conversation.input.plan` slot via priority shadowing (`priority: -10`), replacing the native one-way "Plan" close chip and preventing duplicate buttons.
+  - Persistently displays `[ 🛠️ Build ⇥ Tab ]` / `[ 📋 Plan ⇥ Tab ]` status; click to toggle.
+- **Seamless Model Presets**:
+  - Defaults to using the session's currently selected model and provider without changing models on mode switch.
+  - Click the `⚙️` settings icon next to the toggle button to configure custom models for Plan and Build modes (e.g. fix Plan to Pro/Reasoner and Build to Flash/Chat); leaves as "Follow current model" if unconfigured.
+  - Persisted in local browser storage (v2 format).
+- **Native Bilingual Support**:
+  - Fully supports English and Simplified Chinese UI and settings, automatically adapting to the browser's display language.
 
-### 方式一：通过 DSH 插件市场（推荐）
-1. 在 DSH 设置的 **插件 -> 发现** 中，点击 **管理索引源 -> 添加索引源**。
-2. 输入市场索引地址：
+## Installation
+
+### Method 1: Via DSH Plugin Market (Recommended)
+1. In DeepSeek Harness Settings, navigate to **Plugins -> Discover**.
+2. Click **Manage Index Sources… -> Add Index Source**.
+3. Enter the market index URL:
    ```text
    https://gaoyinxin.github.io/dsh-mode-switcher/index.json
    ```
-3. 在市场列表中搜索 **Mode Switcher**，点击 **安装** 即可。
+4. Search for **Mode Switcher** in the market list and click **Install**.
 
-### 方式二：命令行安装
+### Method 2: Via Command Line
 ```bash
 dsh plugin add git+https://github.com/gaoyinxin/dsh-mode-switcher.git#v1.0.0
 ```

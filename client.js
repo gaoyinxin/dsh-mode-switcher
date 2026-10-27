@@ -3,6 +3,7 @@
  * Provides a unified Plan / Build mode switcher in `conversation.input.plan`,
  * intercepts Tab in the composer to toggle modes,
  * and defaults to the user's current model/provider unless customized in settings.
+ * Supports English and Simplified Chinese bilingual UI.
  */
 window.__ModuleLoader__.load({
   id: '@gaoyinxin/dsh-mode-switcher',
@@ -13,6 +14,52 @@ window.__ModuleLoader__.load({
     const useEffect = React.useEffect;
 
     const PRESET_STORAGE_KEY = 'dsh.mode-switcher.presets.v2';
+
+    const I18N = {
+      zh: {
+        settingsTitle: '模式预设模型设置',
+        close: '关闭',
+        planLabel: '📋 Plan 模式模型',
+        buildLabel: '🛠️ Build 模式模型',
+        followDefault: (display) => `跟随当前模型 (当前: ${display})`,
+        done: '完成',
+        btnPlanAria: '计划模式已开启，按下切换为构建模式',
+        btnBuildAria: '构建模式已开启，按下切换为计划模式',
+        btnPlanTitle: 'Plan 模式开启 · 点击或按 Tab 切换到 Build 模式',
+        btnBuildTitle: 'Build 模式开启 · 点击或按 Tab 切换到 Plan 模式',
+        settingsBtnTitle: '设置各模式预设模型 (默认跟随当前模型)',
+        settingsBtnAria: '设置模式预设模型',
+        defaultName: '默认',
+      },
+      en: {
+        settingsTitle: 'Mode Preset Model Settings',
+        close: 'Close',
+        planLabel: '📋 Plan Mode Model',
+        buildLabel: '🛠️ Build Mode Model',
+        followDefault: (display) => `Follow current model (Current: ${display})`,
+        done: 'Done',
+        btnPlanAria: 'Plan mode on, press to switch to Build mode',
+        btnBuildAria: 'Build mode on, press to switch to Plan mode',
+        btnPlanTitle: 'Plan mode on · Click or press Tab to switch to Build mode',
+        btnBuildTitle: 'Build mode on · Click or press Tab to switch to Plan mode',
+        settingsBtnTitle: 'Set mode preset models (default: follow current model)',
+        settingsBtnAria: 'Set mode preset models',
+        defaultName: 'Default',
+      },
+    };
+
+    function getLocale() {
+      try {
+        const lang = document.documentElement.lang || (typeof navigator !== 'undefined' ? navigator.language : '') || '';
+        if (lang.toLowerCase().startsWith('zh')) return 'zh';
+      } catch (_e) {}
+      return 'en';
+    }
+
+    function useT() {
+      const loc = getLocale();
+      return I18N[loc] || I18N.en;
+    }
 
     function getPresets() {
       try {
@@ -78,6 +125,7 @@ window.__ModuleLoader__.load({
     function ModeSettingsModal(props) {
       const { onClose, catalogGroups, currentSelection, catalogDefault } = props;
       const [presets, setPresets] = useState(getPresets());
+      const t = useT();
 
       useEffect(() => {
         const onEsc = (e) => {
@@ -107,7 +155,7 @@ window.__ModuleLoader__.load({
         : null;
       const currentDisplay = matched
         ? `${matched.modelName} (${matched.providerName})`
-        : (currentTarget ? `${currentTarget.model} (${currentTarget.provider})` : '默认');
+        : (currentTarget ? `${currentTarget.model} (${currentTarget.provider})` : t.defaultName);
 
       const save = (newPresets) => {
         setPresets(newPresets);
@@ -165,11 +213,11 @@ window.__ModuleLoader__.load({
               marginBottom: '16px',
             },
           }, [
-            h('span', { style: { fontWeight: 600, fontSize: '15px' } }, '模式预设模型设置'),
+            h('span', { style: { fontWeight: 600, fontSize: '15px' } }, t.settingsTitle),
             h('button', {
               type: 'button',
               onClick: onClose,
-              'aria-label': '关闭',
+              'aria-label': t.close,
               style: {
                 background: 'transparent',
                 border: 'none',
@@ -182,7 +230,7 @@ window.__ModuleLoader__.load({
           h('div', { style: { marginBottom: '14px' } }, [
             h('label', {
               style: { display: 'block', fontSize: '12px', fontWeight: 500, marginBottom: '6px', color: 'var(--dsw-alias-label-secondary, #595959)' },
-            }, '📋 Plan 模式模型'),
+            }, t.planLabel),
             h('select', {
               value: presets.planModel ? `${presets.planModel.provider}/${presets.planModel.model}` : '',
               onChange: (e) => {
@@ -196,14 +244,14 @@ window.__ModuleLoader__.load({
               },
               style: fieldStyle,
             }, [
-              h('option', { key: '__default', value: '' }, `跟随当前模型 (当前: ${currentDisplay})`),
+              h('option', { key: '__default', value: '' }, t.followDefault(currentDisplay)),
               ...allModels.map(m => h('option', { key: `${m.provider}/${m.model}`, value: `${m.provider}/${m.model}` }, `${m.modelName} (${m.providerName})`)),
             ]),
           ]),
           h('div', { style: { marginBottom: '18px' } }, [
             h('label', {
               style: { display: 'block', fontSize: '12px', fontWeight: 500, marginBottom: '6px', color: 'var(--dsw-alias-label-secondary, #595959)' },
-            }, '🛠️ Build 模式模型'),
+            }, t.buildLabel),
             h('select', {
               value: presets.buildModel ? `${presets.buildModel.provider}/${presets.buildModel.model}` : '',
               onChange: (e) => {
@@ -217,7 +265,7 @@ window.__ModuleLoader__.load({
               },
               style: fieldStyle,
             }, [
-              h('option', { key: '__default', value: '' }, `跟随当前模型 (当前: ${currentDisplay})`),
+              h('option', { key: '__default', value: '' }, t.followDefault(currentDisplay)),
               ...allModels.map(m => h('option', { key: `${m.provider}/${m.model}`, value: `${m.provider}/${m.model}` }, `${m.modelName} (${m.providerName})`)),
             ]),
           ]),
@@ -235,7 +283,7 @@ window.__ModuleLoader__.load({
                 fontSize: '13px',
                 fontWeight: 500,
               },
-            }, '完成'),
+            }, t.done),
           ]),
         ]),
       ]);
@@ -247,6 +295,7 @@ window.__ModuleLoader__.load({
       const modelSel = useProjection ? useProjection('modelSelection') : undefined;
       const target = plan ? (plan.pending ? !plan.active : plan.active) : false;
       const currentSelection = (modelSel && (modelSel.next || modelSel.lastUsed)) || null;
+      const t = useT();
 
       const [busy, setBusy] = useState(false);
       const [showSettings, setShowSettings] = useState(false);
@@ -340,12 +389,8 @@ window.__ModuleLoader__.load({
           style: buttonStyle,
           disabled: isDisabled,
           onClick: onButtonClick,
-          'aria-label': target
-            ? 'Plan mode on, press to turn off'
-            : 'Build mode on, press to switch to plan mode',
-          title: target
-            ? 'Plan 模式开启 · 点击或按 Tab 切换到 Build 模式'
-            : 'Build 模式开启 · 点击或按 Tab 切换到 Plan 模式',
+          'aria-label': target ? t.btnPlanAria : t.btnBuildAria,
+          title: target ? t.btnPlanTitle : t.btnBuildTitle,
         }, [
           h('span', { style: { fontSize: '13px', display: 'inline-flex' }, 'aria-hidden': 'true' }, target ? '📋' : '🛠️'),
           h('span', null, target ? 'Plan' : 'Build'),
@@ -354,8 +399,8 @@ window.__ModuleLoader__.load({
         h('button', {
           type: 'button',
           onClick: openSettings,
-          title: '设置各模式预设模型 (默认跟随当前模型)',
-          'aria-label': '设置模式预设模型',
+          title: t.settingsBtnTitle,
+          'aria-label': t.settingsBtnAria,
           style: {
             display: 'inline-flex',
             alignItems: 'center',

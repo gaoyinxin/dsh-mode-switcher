@@ -1,6 +1,22 @@
 {
   "meta": {
     "title": "Tab Mode & Model Switcher",
-    "description": "Switch between Plan and Build mode with Tab key or button like Claude Code, with preset models for each mode."
+    "description": "Switch between Plan and Build modes with Tab key or button like Claude Code, with preset models for each mode."
+  },
+  "settings": {
+    "title": "Mode Preset Model Settings",
+    "close": "Close",
+    "planLabel": "📋 Plan Mode Model",
+    "buildLabel": "🛠️ Build Mode Model",
+    "followDefault": "Follow current model (Current: {display})",
+    "done": "Done",
+    "buttonTitle": "Set mode preset models (default: follow current model)",
+    "buttonAria": "Set mode preset models"
+  },
+  "button": {
+    "planAria": "Plan mode on, press to switch to Build mode",
+    "buildAria": "Build mode on, press to switch to Plan mode",
+    "planTitle": "Plan mode on · Click or press Tab to switch to Build mode",
+    "buildTitle": "Build mode on · Click or press Tab to switch to Plan mode"
   }
 }
