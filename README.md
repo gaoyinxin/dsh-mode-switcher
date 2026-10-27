@@ -20,6 +20,14 @@ Switch seamlessly between **Plan** and **Build** modes in DeepSeek Harness via `
 - **Native Bilingual Support**:
   - Fully supports English and Simplified Chinese tooltips and accessibility labels, automatically adapting to the browser's display language.
 
+## Screenshots
+
+| Plan mode (amber) | Build mode (blue) |
+|---|---|
+| ![Plan mode](assets/plan-mode.jpg) | ![Build mode](assets/build-mode.jpg) |
+
+The chip shows the mode you are in and switches to the other one when clicked or when `Tab` is pressed.
+
 ## Installation
 
 ### Method 1: Via DSH Plugin Market (Recommended)
@@ -33,5 +41,5 @@ Switch seamlessly between **Plan** and **Build** modes in DeepSeek Harness via `
 
 ### Method 2: Via Command Line
 ```bash
-dsh plugin add git+https://github.com/gaoyinxin/dsh-mode-switcher.git#v1.0.2
+dsh plugin add git+https://github.com/gaoyinxin/dsh-mode-switcher.git#v1.0.3
 ```

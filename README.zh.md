@@ -20,6 +20,14 @@
 - **原生双语支持**：
   - 自动识别系统语言，支持英文（English）与简体中文提示文本无缝切换。
 
+## 截图
+
+| Plan 模式（橙色） | Build 模式（蓝色） |
+|---|---|
+| ![Plan 模式](assets/plan-mode.jpg) | ![Build 模式](assets/build-mode.jpg) |
+
+按钮显示当前所处模式，点击按钮或按下 `Tab` 键即切换到另一种模式。
+
 ## 安装方式
 
 ### 方式一：通过 DSH 插件市场（推荐）
@@ -32,5 +40,5 @@
 
 ### 方式二：命令行安装
 ```bash
-dsh plugin add git+https://github.com/gaoyinxin/dsh-mode-switcher.git#v1.0.2
+dsh plugin add git+https://github.com/gaoyinxin/dsh-mode-switcher.git#v1.0.3
 ```

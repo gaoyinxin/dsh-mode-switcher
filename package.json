@@ -1,6 +1,6 @@
 {
   "name": "@gaoyinxin/dsh-mode-switcher",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Switch between Plan and Build mode via Tab button or key, with per-mode preset models.",
   "author": "GaoYinxin",
   "homepage": "https://github.com/gaoyinxin/dsh-mode-switcher#readme",
@@ -33,6 +33,8 @@
     "locale/*.json",
     "icon.svg",
     "index.json",
+    "screenshots.json",
+    "assets/*.jpg",
     "README.md",
     "README.zh.md"
   ],
