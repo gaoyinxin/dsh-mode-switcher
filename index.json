@@ -17,6 +17,18 @@
       },
       "versions": [
         {
+          "version": "1.0.2",
+          "publishTimestamp": 1793093000,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/gaoyinxin/dsh-mode-switcher.git",
+            "commit": "abccb3f5db8af2fe03bb8f1b6af031c623c7b546"
+          },
+          "engines": {
+            "dsh": ">=0.2.0-rc.1"
+          }
+        },
+        {
           "version": "1.0.1",
           "publishTimestamp": 1793086074,
           "source": {
