@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Tab 模式与模型切换器",
+    "description": "像 Claude Code 一样通过 Tab 键或 Tab 按钮快速切换 Plan 和 Build 模式，并预设各模式的模型（如 Plan 用 Pro，Build 用 Flash）。"
+  }
+}

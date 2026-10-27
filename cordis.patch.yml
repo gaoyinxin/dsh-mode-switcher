@@ -1,0 +1,3 @@
+- insert:
+    - id: mode-switcher
+      name: '@gaoyinxin/dsh-mode-switcher'
