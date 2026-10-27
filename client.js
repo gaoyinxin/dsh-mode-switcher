@@ -21,12 +21,20 @@ window.__ModuleLoader__.load({
         btnBuildAria: '构建模式已开启，按下切换为计划模式',
         btnPlanTitle: 'Plan 模式开启 · 点击或按 Tab 切换到 Build 模式（直接使用右侧模型选择器即可记忆当前模式模型）',
         btnBuildTitle: 'Build 模式开启 · 点击或按 Tab 切换到 Plan 模式（直接使用右侧模型选择器即可记忆当前模式模型）',
+        enterPlan: '进入plan模式',
+        enterBuild: '进入build模式',
+        commandRunning: '执行中…',
+        commandFailed: '指令失败',
       },
       en: {
         btnPlanAria: 'Plan mode on, press to switch to Build mode',
         btnBuildAria: 'Build mode on, press to switch to Plan mode',
         btnPlanTitle: 'Plan mode on · Click or press Tab to switch to Build mode (use the model selector on the right to set this mode\'s model)',
         btnBuildTitle: 'Build mode on · Click or press Tab to switch to Plan mode (use the model selector on the right to set this mode\'s model)',
+        enterPlan: 'Entering plan mode',
+        enterBuild: 'Entering build mode',
+        commandRunning: 'Running…',
+        commandFailed: 'Command failed',
       },
     };
 
@@ -38,8 +46,28 @@ window.__ModuleLoader__.load({
       return 'en';
     }
 
+    function useLocale() {
+      const [loc, setLoc] = useState(getLocale);
+      useEffect(() => {
+        const update = () => {
+          setLoc(getLocale());
+        };
+        const observer = new MutationObserver(update);
+        observer.observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ['lang'],
+        });
+        window.addEventListener('languagechange', update);
+        return () => {
+          observer.disconnect();
+          window.removeEventListener('languagechange', update);
+        };
+      }, []);
+      return loc;
+    }
+
     function useT() {
-      const loc = getLocale();
+      const loc = useLocale();
       return I18N[loc] || I18N.en;
     }
 
@@ -185,6 +213,7 @@ window.__ModuleLoader__.load({
       const currentSelection = (modelSel && (modelSel.next || modelSel.lastUsed)) || null;
       const t = useT();
 
+      const [hovered, setHovered] = useState(false);
       const [busy, setBusy] = useState(false);
       const isDisabled = Boolean(locked || busy);
 
@@ -282,8 +311,10 @@ window.__ModuleLoader__.load({
         padding: '0 8px',
         border: 'none',
         borderRadius: 'var(--dsw-radius-sm, 6px)',
-        background: 'var(--dsw-alias-state-business-tertiary, #e6f4ff)',
-        color: 'var(--dsw-alias-state-business-primary, #1677ff)',
+        background: hovered && !isDisabled
+          ? 'color-mix(in srgb, var(--dsw-alias-state-warn-tertiary, #fff7e6), var(--dsw-alias-state-warn-label, #dd8629) 10%)'
+          : 'var(--dsw-alias-state-warn-tertiary, #fff7e6)',
+        color: 'var(--dsw-alias-state-warn-label, #dd8629)',
         fontSize: '13px',
         fontWeight: 600,
         cursor: isDisabled ? 'default' : 'pointer',
@@ -295,12 +326,14 @@ window.__ModuleLoader__.load({
         gap: '4px',
         height: '28px',
         padding: '0 8px',
-        border: '1px solid var(--dsw-alias-border-subtle, #d9d9d9)',
+        border: 'none',
         borderRadius: 'var(--dsw-radius-sm, 6px)',
-        background: 'transparent',
-        color: 'var(--dsw-alias-label-secondary, #595959)',
+        background: hovered && !isDisabled
+          ? 'color-mix(in srgb, var(--dsw-alias-state-business-tertiary, #e6f4ff), var(--dsw-alias-state-business-primary, #1677ff) 10%)'
+          : 'var(--dsw-alias-state-business-tertiary, #e6f4ff)',
+        color: 'var(--dsw-alias-state-business-primary, #1677ff)',
         fontSize: '13px',
-        fontWeight: 500,
+        fontWeight: 600,
         cursor: isDisabled ? 'default' : 'pointer',
         opacity: isDisabled ? 0.6 : 1,
         transition: 'all 0.15s ease',
@@ -308,10 +341,10 @@ window.__ModuleLoader__.load({
 
       const hintStyle = {
         fontSize: '10px',
-        opacity: 0.75,
+        opacity: 0.85,
         padding: '1px 4px',
         borderRadius: '3px',
-        background: target ? 'rgba(22, 119, 255, 0.15)' : 'rgba(128, 128, 128, 0.15)',
+        background: target ? 'rgba(221, 134, 41, 0.18)' : 'rgba(22, 119, 255, 0.15)',
         lineHeight: 1,
         marginLeft: '2px',
       };
@@ -321,12 +354,137 @@ window.__ModuleLoader__.load({
         style: buttonStyle,
         disabled: isDisabled,
         onClick: onButtonClick,
+        onMouseEnter: () => setHovered(true),
+        onMouseLeave: () => setHovered(false),
         'aria-label': target ? t.btnPlanAria : t.btnBuildAria,
         title: target ? t.btnPlanTitle : t.btnBuildTitle,
       }, [
         h('span', { style: { fontSize: '13px', display: 'inline-flex' }, 'aria-hidden': 'true' }, target ? '📋' : '🛠️'),
         h('span', null, target ? 'Plan' : 'Build'),
         h('span', { style: hintStyle, 'aria-hidden': 'true' }, '⇥ Tab'),
+      ]);
+    }
+
+    function isEnteringPlanMode(node) {
+      if (!node) return true;
+      const args = ((node.args || '') + '').trim().toLowerCase();
+      if (args === 'off' || args.startsWith('off')) return false;
+
+      const text = (node.outcome && node.outcome.text ? node.outcome.text : '').trim();
+      if (
+        text.startsWith('Plan mode off') ||
+        text.startsWith('Leaving plan mode') ||
+        text.startsWith('Plan mode entry cancelled') ||
+        text.startsWith('Plan mode is already inactive')
+      ) {
+        return false;
+      }
+      if (
+        text.startsWith('Plan mode on') ||
+        text.startsWith('Entering plan mode')
+      ) {
+        return true;
+      }
+      return true;
+    }
+
+    function PlanCommandCard(props) {
+      const { node } = props;
+      const [hovered, setHovered] = useState(false);
+      const t = useT();
+      const isPlan = isEnteringPlanMode(node);
+      const isError = Boolean(node && node.outcome && node.outcome.kind === 'error');
+      const isRunning = Boolean(node && node.outcome === null);
+
+      let summaryText = isPlan ? t.enterPlan : t.enterBuild;
+      if (isError) {
+        summaryText = (node && node.outcome && node.outcome.text) || t.commandFailed;
+      } else if (isRunning) {
+        summaryText = t.commandRunning;
+      }
+
+      const icon = h('svg', {
+        width: 14,
+        height: 14,
+        viewBox: '0 0 16 16',
+        fill: 'none',
+        xmlns: 'http://www.w3.org/2000/svg',
+        'aria-hidden': 'true',
+        strokeWidth: 1.2,
+        style: { display: 'inline-block', verticalAlign: 'middle', flexShrink: 0 },
+      }, [
+        h('path', { d: 'M3 4L7 8L3 12', stroke: 'currentColor' }),
+        h('path', { d: 'M9 12H13', stroke: 'currentColor' }),
+      ]);
+
+      return h('div', {
+        style: {
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+          minWidth: 0,
+        },
+        'data-variant': 'others',
+        'data-state': isError ? 'error' : (isRunning ? 'running' : 'ok'),
+      }, [
+        h('div', {
+          onMouseEnter: () => setHovered(true),
+          onMouseLeave: () => setHovered(false),
+          style: {
+            display: 'flex',
+            alignItems: 'center',
+            height: 'calc(24px + var(--dsh-content-font-delta, 0px))',
+            minWidth: 0,
+            color: hovered ? 'var(--dsw-alias-label-secondary, #595959)' : 'var(--dsw-alias-label-tertiary, #8c8c8c)',
+            transition: 'color 100ms ease',
+          },
+        }, [
+          h('span', {
+            style: {
+              position: 'relative',
+              flex: 'none',
+              width: 'calc(16px + var(--dsh-content-font-delta, 0px))',
+              height: 'calc(16px + var(--dsh-content-font-delta, 0px))',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginRight: '6px',
+              color: 'inherit',
+            },
+          }, icon),
+          h('span', {
+            style: {
+              flex: 'none',
+              fontSize: 'var(--dsh-content-font-size-secondary, 13px)',
+              lineHeight: 'calc(24px + var(--dsh-content-font-delta, 0px))',
+              color: 'inherit',
+              fontWeight: 400,
+            },
+          }, 'plan'),
+          h('span', {
+            style: {
+              flex: 'none',
+              width: '2px',
+              height: '2px',
+              margin: '0 8px',
+              borderRadius: '1px',
+              background: 'var(--dsw-alias-label-caption, #bfbfbf)',
+            },
+            'aria-hidden': 'true',
+          }),
+          h('span', {
+            style: {
+              minWidth: 0,
+              overflow: 'hidden',
+              flex: '1 1 auto',
+              fontSize: 'var(--dsh-content-font-size-secondary, 13px)',
+              lineHeight: 'calc(24px + var(--dsh-content-font-delta, 0px))',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              color: isError ? 'var(--dsw-alias-state-error-primary, #ff4d4f)' : 'inherit',
+            },
+          }, summaryText),
+        ]),
       ]);
     }
 
@@ -375,6 +533,12 @@ window.__ModuleLoader__.load({
             applyModel: (targetModel) => selectSessionModel(ctx, sessionId, targetModel),
           }),
         }, ModeSwitcherControl));
+
+        ctx.slots.inject('conversation.chat.commandview', () => ctx.slots.register({
+          name: 'conversation.chat.commandview',
+          key: 'plan',
+          priority: -10,
+        }, PlanCommandCard));
       },
     };
   },

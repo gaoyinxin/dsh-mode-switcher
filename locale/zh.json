@@ -8,5 +8,9 @@
     "buildAria": "构建模式已开启，按下切换为计划模式",
     "planTitle": "Plan 模式开启 · 点击或按 Tab 切换到 Build 模式（直接使用右侧模型选择器即可记忆当前模式模型）",
     "buildTitle": "Build 模式开启 · 点击或按 Tab 切换到 Plan 模式（直接使用右侧模型选择器即可记忆当前模式模型）"
+  },
+  "command": {
+    "enterPlan": "进入plan模式",
+    "enterBuild": "进入build模式"
   }
 }

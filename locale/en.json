@@ -8,5 +8,9 @@
     "buildAria": "Build mode on, press to switch to Plan mode",
     "planTitle": "Plan mode on · Click or press Tab to switch to Build mode (use the model selector on the right to set this mode's model)",
     "buildTitle": "Build mode on · Click or press Tab to switch to Plan mode (use the model selector on the right to set this mode's model)"
+  },
+  "command": {
+    "enterPlan": "Entering plan mode",
+    "enterBuild": "Entering build mode"
   }
 }
