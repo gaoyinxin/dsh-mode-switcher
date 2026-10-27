@@ -30,7 +30,13 @@
 
 ## 安装方式
 
-### 方式一：通过 DSH 插件市场（推荐）
+### 方式一：从 npm 安装（推荐）
+```bash
+dsh plugin add @gaoyinxin/dsh-mode-switcher
+```
+包已预构建，安装时无需构建授权。
+
+### 方式二：通过 DSH 插件市场
 1. 在 DSH 设置的 **插件 -> 发现** 中，点击 **管理索引源 -> 添加索引源**。
 2. 输入市场索引地址：
    ```text
@@ -38,7 +44,7 @@
    ```
 3. 在市场列表中搜索 **Mode Switcher**，点击 **安装** 即可。
 
-### 方式二：命令行安装
+### 方式三：直接从仓库安装
 ```bash
-dsh plugin add git+https://github.com/gaoyinxin/dsh-mode-switcher.git#v1.0.3
+dsh plugin add git+https://github.com/gaoyinxin/dsh-mode-switcher.git#v1.0.4
 ```

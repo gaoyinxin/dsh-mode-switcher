@@ -30,7 +30,13 @@ The chip shows the mode you are in and switches to the other one when clicked or
 
 ## Installation
 
-### Method 1: Via DSH Plugin Market (Recommended)
+### Method 1: From npm (Recommended)
+```bash
+dsh plugin add @gaoyinxin/dsh-mode-switcher
+```
+The package is prebuilt, so the install skips the build-approval step.
+
+### Method 2: Via DSH Plugin Market
 1. In DeepSeek Harness Settings, navigate to **Plugins -> Discover**.
 2. Click **Manage Index Sources… -> Add Index Source**.
 3. Enter the market index URL:
@@ -39,7 +45,7 @@ The chip shows the mode you are in and switches to the other one when clicked or
    ```
 4. Search for **Mode Switcher** in the market list and click **Install**.
 
-### Method 2: Via Command Line
+### Method 3: Straight from the repository
 ```bash
-dsh plugin add git+https://github.com/gaoyinxin/dsh-mode-switcher.git#v1.0.3
+dsh plugin add git+https://github.com/gaoyinxin/dsh-mode-switcher.git#v1.0.4
 ```
