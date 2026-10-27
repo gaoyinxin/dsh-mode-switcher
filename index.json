@@ -22,7 +22,7 @@
           "source": {
             "type": "git",
             "url": "https://github.com/gaoyinxin/dsh-mode-switcher.git",
-            "commit": "69ee791e9f6fee92d3c9ed762ef2d3072c6207d0"
+            "commit": "b8de2938d060e767ad5d696589e68189f518a998"
           },
           "engines": {
             "dsh": ">=0.2.0-rc.1"
