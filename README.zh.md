@@ -32,5 +32,5 @@
 
 ### 方式二：命令行安装
 ```bash
-dsh plugin add git+https://github.com/gaoyinxin/dsh-mode-switcher.git#v1.0.1
+dsh plugin add git+https://github.com/gaoyinxin/dsh-mode-switcher.git#v1.0.2
 ```

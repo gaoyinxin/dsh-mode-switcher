@@ -33,5 +33,5 @@ Switch seamlessly between **Plan** and **Build** modes in DeepSeek Harness via `
 
 ### Method 2: Via Command Line
 ```bash
-dsh plugin add git+https://github.com/gaoyinxin/dsh-mode-switcher.git#v1.0.1
+dsh plugin add git+https://github.com/gaoyinxin/dsh-mode-switcher.git#v1.0.2
 ```
