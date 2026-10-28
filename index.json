@@ -1,10 +1,16 @@
 {
   "format": 1,
-  "title": { "en": "GaoYinxin's DSH Plugins", "zh": "GaoYinxin 的 DSH 插件市场" },
+  "title": {
+    "en": "GaoYinxin's DSH Plugins",
+    "zh": "GaoYinxin 的 DSH 插件市场"
+  },
   "plugins": [
     {
       "name": "@gaoyinxin/dsh-mode-switcher",
-      "title": { "en": "Tab Mode Switcher", "zh": "Tab 模式与模型切换器 (Mode Switcher)" },
+      "title": {
+        "en": "Tab Mode Switcher",
+        "zh": "Tab 模式与模型切换器 (Mode Switcher)"
+      },
       "description": {
         "en": "Switch between Plan and Build mode via Tab button or key, with per-mode preset models.",
         "zh": "像 Claude Code 一样通过 Tab 键或 Tab 按钮快速切换 Plan 和 Build 模式，并预设各模式的模型（如 Plan 用 Pro，Build 用 Flash）。"
@@ -17,12 +23,20 @@
       },
       "versions": [
         {
-          "version": "1.0.3",
-          "publishTimestamp": 1793097400,
+          "version": "1.0.4",
+          "publishTimestamp": 1793098417,
           "source": {
-            "type": "git",
-            "url": "https://github.com/gaoyinxin/dsh-mode-switcher.git",
-            "commit": "16e2da8a9a98d54dc8681024ece58acaa6417217"
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.0-rc.1"
+          }
+        },
+        {
+          "version": "1.0.3",
+          "publishTimestamp": 1793098166,
+          "source": {
+            "type": "npm"
           },
           "engines": {
             "dsh": ">=0.2.0-rc.1"
